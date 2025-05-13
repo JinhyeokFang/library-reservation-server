@@ -7,6 +7,7 @@ import jakarta.persistence.*
 class Space (
     name: String,
     floor: Int,
+    seats: MutableList<Seat> = mutableListOf(),
 ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -15,13 +16,13 @@ class Space (
     var name = name
     protected set
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     var floor = floor
     protected set
 
     @Column(nullable = false)
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    var seats: MutableList<Seat> = ArrayList()
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+    var seats: MutableList<Seat> = seats
     protected set
 }
 
