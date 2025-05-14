@@ -4,11 +4,14 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldNotBe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest
+import org.springframework.context.annotation.Import
+import uk.jinhy.libraryreservationserver.config.TestContainersConfig
 import uk.jinhy.libraryreservationserver.domain.entity.Reservation
 import uk.jinhy.libraryreservationserver.domain.repository.ReservationRepository
 import java.time.LocalDateTime
 
 @DataRedisTest
+@Import(TestContainersConfig::class)
 class ReservationTest @Autowired constructor(
     private val reservationRepository: ReservationRepository,
 ) : BehaviorSpec({
