@@ -8,8 +8,6 @@ import java.time.LocalDateTime
 class Seat(
     code: Int,
     name: String,
-    status: SeatStatus,
-    expiredAt: LocalDateTime?,
 ) {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long? = null
@@ -24,14 +22,5 @@ class Seat(
 
     @Column(nullable = false)
     var name = name
-    protected set
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    var status = status
-    protected set
-
-    @Column(nullable = true)
-    var expiredAt = expiredAt
     protected set
 }

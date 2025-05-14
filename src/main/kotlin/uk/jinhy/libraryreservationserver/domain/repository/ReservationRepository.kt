@@ -2,9 +2,8 @@ package uk.jinhy.libraryreservationserver.domain.repository
 
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
-import uk.jinhy.libraryreservationserver.domain.entity.Space
+import uk.jinhy.libraryreservationserver.domain.entity.Reservation
 
 @Repository
-interface SpaceRepository: CrudRepository<Space, Long> {
-    override fun findAll(): List<Space>
+interface ReservationRepository: CrudRepository<Reservation, Long> {
 }

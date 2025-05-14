@@ -29,14 +29,10 @@ class SpaceServiceTest : BehaviorSpec({
             Seat(
                 code = 392,
                 name = "2번",
-                status = SeatStatus.OCCUPIED,
-                expiredAt = LocalDateTime.ofInstant(Instant.ofEpochSecond(1747132337000), ZoneId.systemDefault())
             ),
             Seat(
-                code = 392,
-                name = "2번",
-                status = SeatStatus.AVAILABLE,
-                expiredAt = null
+                code = 393,
+                name = "3번",
             ),
         )
         val space1 = Space(name = "창의팩토리", floor = 1, seats = seatsOfSpace1)
