@@ -1,8 +1,8 @@
 package uk.jinhy.libraryreservationserver.application.service
 
 import org.springframework.stereotype.Service
-import uk.jinhy.libraryreservationserver.application.service.dto.SeatDto
-import uk.jinhy.libraryreservationserver.application.service.dto.SpaceDto
+import uk.jinhy.libraryreservationserver.application.dto.SeatDto
+import uk.jinhy.libraryreservationserver.application.dto.SpaceDto
 import uk.jinhy.libraryreservationserver.domain.repository.SpaceRepository
 
 @Service

@@ -1,21 +1,16 @@
-package uk.jinhy.libraryreservationserver.application
+package uk.jinhy.libraryreservationserver.application.service
 
 import io.kotest.core.spec.style.BehaviorSpec
-import io.kotest.matchers.collections.shouldExist
 import io.kotest.matchers.collections.shouldHaveSize
+import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import org.junit.jupiter.api.extension.ExtendWith
-import uk.jinhy.libraryreservationserver.application.service.SpaceService
 import uk.jinhy.libraryreservationserver.domain.entity.Seat
-import uk.jinhy.libraryreservationserver.domain.entity.SeatStatus
 import uk.jinhy.libraryreservationserver.domain.entity.Space
 import uk.jinhy.libraryreservationserver.domain.repository.SpaceRepository
-import java.time.Instant
-import java.time.LocalDateTime
-import java.time.ZoneId
 
 private var spaceRepository = mockk<SpaceRepository>()
 
@@ -47,9 +42,15 @@ class SpaceServiceTest : BehaviorSpec({
         When("getSpaceList()를 호출하면") {
             val spaces = spaceService.getSpaceList()
             Then("도서관의 모든 공간을 불러올 수 있어야 한다.") {
+                val space1FromService = spaces.first { it.name == "창의팩토리" }
+                val space2FromService = spaces.first { it.name == "창의토론실" }
+
                 spaces shouldHaveSize 2
-                spaces shouldExist { it.name == "창의팩토리" && it.floor == 1 && it.seats.size == 2}
-                spaces shouldExist { it.name == "창의토론실" && it.floor == 1 }
+
+                space1FromService.floor shouldBe 1
+                space1FromService.seats.size shouldBe 2
+
+                space2FromService.floor shouldBe 1
             }
         }
     }

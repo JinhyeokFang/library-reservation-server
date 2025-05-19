@@ -25,8 +25,7 @@ class FeignConfig {
         }
 
         return Client.Default(
-            sslContext.socketFactory,
-            { _, _ -> true }
-        )
+            sslContext.socketFactory
+        ) { _, _ -> true }
     }
-} 
+}

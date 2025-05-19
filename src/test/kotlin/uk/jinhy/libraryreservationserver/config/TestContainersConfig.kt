@@ -38,4 +38,4 @@ class TestContainersConfig {
             redisContainer.firstMappedPort
         )
     }
-} 
+}
