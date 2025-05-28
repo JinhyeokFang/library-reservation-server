@@ -7,7 +7,7 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import org.junit.jupiter.api.extension.ExtendWith
-import uk.jinhy.libraryreservationserver.application.service.dto.ReservationDetailsDto
+import uk.jinhy.libraryreservationserver.application.dto.ReservationDetailsDto
 import uk.jinhy.libraryreservationserver.infrastructure.LibraryReservationClient
 import uk.jinhy.libraryreservationserver.infrastructure.dto.LibraryReservationDetailsDto
 import uk.jinhy.libraryreservationserver.infrastructure.dto.LibraryReservationInfoDto

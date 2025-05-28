@@ -7,10 +7,10 @@ import io.mockk.impl.annotations.InjectMockKs
 import io.mockk.junit5.MockKExtension
 import io.mockk.mockk
 import org.junit.jupiter.api.extension.ExtendWith
+import uk.jinhy.libraryreservationserver.application.dto.ReservationDetailsDto
+import uk.jinhy.libraryreservationserver.application.dto.ReservationInfoDto
+import uk.jinhy.libraryreservationserver.application.dto.ReservationListDto
 import uk.jinhy.libraryreservationserver.application.service.ReservationService
-import uk.jinhy.libraryreservationserver.application.service.dto.ReservationDetailsDto
-import uk.jinhy.libraryreservationserver.application.service.dto.ReservationInfoDto
-import uk.jinhy.libraryreservationserver.application.service.dto.ReservationListDto
 import java.time.Instant
 
 private val reservationService = mockk<ReservationService>()

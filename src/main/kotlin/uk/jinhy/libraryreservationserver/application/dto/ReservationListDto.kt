@@ -1,4 +1,4 @@
-package uk.jinhy.libraryreservationserver.application.service.dto
+package uk.jinhy.libraryreservationserver.application.dto
 
 data class ReservationListDto(
     val seats: List<ReservationInfoDto>,
