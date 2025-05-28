@@ -5,5 +5,5 @@ data class LibraryReservationDetailsDto(
     val seatId: Int,
     val mySeat: Boolean,
     val confirmInTime: Long,
-    val expireTime: Long
+    val expireTime: Long,
 )

@@ -5,5 +5,4 @@ import org.springframework.stereotype.Repository
 import uk.jinhy.libraryreservationserver.domain.entity.Reservation
 
 @Repository
-interface ReservationRepository: CrudRepository<Reservation, Long> {
-}
+interface ReservationRepository : CrudRepository<Reservation, Long>

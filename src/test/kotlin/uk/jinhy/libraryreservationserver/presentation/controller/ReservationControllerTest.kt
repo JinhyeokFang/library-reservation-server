@@ -11,7 +11,6 @@ import uk.jinhy.libraryreservationserver.application.service.ReservationService
 import uk.jinhy.libraryreservationserver.application.service.dto.ReservationDetailsDto
 import uk.jinhy.libraryreservationserver.application.service.dto.ReservationInfoDto
 import uk.jinhy.libraryreservationserver.application.service.dto.ReservationListDto
-import uk.jinhy.libraryreservationserver.global.response.CommonResponse
 import java.time.Instant
 
 private val reservationService = mockk<ReservationService>()
@@ -63,25 +62,27 @@ class ReservationControllerTest : BehaviorSpec({
 
 private fun createMockResponse(): ReservationListDto {
     return ReservationListDto(
-        seats = listOf(
-            ReservationInfoDto(
-                code = 1,
-                name = "1",
-                isPcSeat = false,
-                details = null
+        seats =
+            listOf(
+                ReservationInfoDto(
+                    code = 1,
+                    name = "1",
+                    isPcSeat = false,
+                    details = null,
+                ),
+                ReservationInfoDto(
+                    code = 6,
+                    name = "6",
+                    isPcSeat = false,
+                    details =
+                        ReservationDetailsDto(
+                            checkInTime = Instant.ofEpochMilli(1747534727000),
+                            expireTime = Instant.ofEpochMilli(1747549127000),
+                        ),
+                ),
             ),
-            ReservationInfoDto(
-                code = 6,
-                name = "6",
-                isPcSeat = false,
-                details = ReservationDetailsDto(
-                    checkInTime = Instant.ofEpochMilli(1747534727000),
-                    expireTime = Instant.ofEpochMilli(1747549127000)
-                )
-            )
-        ),
         totalCount = 2,
         occupiedCount = 1,
-        availableCount = 1
+        availableCount = 1,
     )
 }

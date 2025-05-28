@@ -8,5 +8,7 @@ import uk.jinhy.libraryreservationserver.infrastructure.dto.LibraryReservationLi
 @FeignClient(name = "kyonggiUnivLibrarySeats", url = "https://libgate.kyonggi.ac.kr")
 interface LibraryReservationClient {
     @GetMapping("/libraries/seats/{roomId}")
-    fun getReservationList(@PathVariable roomId: Int): LibraryReservationListDto
+    fun getReservationList(
+        @PathVariable roomId: Int,
+    ): LibraryReservationListDto
 }

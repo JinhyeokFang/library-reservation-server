@@ -8,7 +8,10 @@ import kotlin.reflect.KProperty
 class LoggerDelegate : ReadOnlyProperty<Any?, Logger> {
     private lateinit var logger: Logger
 
-    override fun getValue(thisRef: Any?, property: KProperty<*>): Logger {
+    override fun getValue(
+        thisRef: Any?,
+        property: KProperty<*>,
+    ): Logger {
         if (!::logger.isInitialized) {
             logger = LoggerFactory.getLogger(thisRef!!.javaClass)
         }

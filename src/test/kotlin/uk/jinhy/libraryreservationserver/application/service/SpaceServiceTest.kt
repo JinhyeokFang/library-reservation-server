@@ -20,22 +20,24 @@ private var spaceService: SpaceService = SpaceServiceImpl(spaceRepository)
 @ExtendWith(MockKExtension::class)
 class SpaceServiceTest : BehaviorSpec({
     Given("SpaceService의") {
-        val seatsOfSpace1: MutableList<Seat> = mutableListOf(
-            Seat(
-                code = 392,
-                name = "2번",
-            ),
-            Seat(
-                code = 393,
-                name = "3번",
-            ),
-        )
+        val seatsOfSpace1: MutableList<Seat> =
+            mutableListOf(
+                Seat(
+                    code = 392,
+                    name = "2번",
+                ),
+                Seat(
+                    code = 393,
+                    name = "3번",
+                ),
+            )
         val space1 = Space(name = "창의팩토리", floor = 1, seats = seatsOfSpace1)
         val space2 = Space(name = "창의토론실", floor = 1)
-        val savedSpaces = listOf(
-            space1,
-            space2,
-        )
+        val savedSpaces =
+            listOf(
+                space1,
+                space2,
+            )
 
         every { spaceRepository.findAll() } returns savedSpaces
 

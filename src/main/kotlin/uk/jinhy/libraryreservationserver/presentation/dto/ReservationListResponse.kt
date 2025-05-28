@@ -4,5 +4,5 @@ data class ReservationListResponse(
     val seats: List<ReservationItemDto>,
     val totalCount: Int,
     val occupiedCount: Int,
-    val availableCount: Int
+    val availableCount: Int,
 )

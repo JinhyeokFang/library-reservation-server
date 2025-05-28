@@ -17,7 +17,6 @@ import uk.jinhy.libraryreservationserver.global.response.CommonResponse
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
-
     @ExceptionHandler(BusinessException::class)
     fun handleBusinessException(e: BusinessException): ResponseEntity<CommonResponse<Nothing>> {
         return ResponseEntity
@@ -27,10 +26,11 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException::class)
     fun handleMethodArgumentNotValidException(e: MethodArgumentNotValidException): ResponseEntity<CommonResponse<Nothing>> {
-        val fieldError = e.bindingResult.fieldError ?: return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(CommonResponse.error("INVALID_REQUEST", "유효하지 않은 요청입니다", HttpStatus.BAD_REQUEST))
-        
+        val fieldError =
+            e.bindingResult.fieldError ?: return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(CommonResponse.error("INVALID_REQUEST", "유효하지 않은 요청입니다", HttpStatus.BAD_REQUEST))
+
         val message = "${fieldError.field}: ${fieldError.defaultMessage}"
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
@@ -39,10 +39,11 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(BindException::class)
     fun handleBindException(e: BindException): ResponseEntity<CommonResponse<Nothing>> {
-        val fieldError = e.bindingResult.fieldError ?: return ResponseEntity
-            .status(HttpStatus.BAD_REQUEST)
-            .body(CommonResponse.error("INVALID_REQUEST", "유효하지 않은 요청입니다", HttpStatus.BAD_REQUEST))
-        
+        val fieldError =
+            e.bindingResult.fieldError ?: return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(CommonResponse.error("INVALID_REQUEST", "유효하지 않은 요청입니다", HttpStatus.BAD_REQUEST))
+
         val message = "${fieldError.field}: ${fieldError.defaultMessage}"
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
@@ -74,9 +75,10 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException::class)
     fun handleConstraintViolationException(e: ConstraintViolationException): ResponseEntity<CommonResponse<Nothing>> {
-        val message = e.constraintViolations.joinToString(", ") { 
-            "${it.propertyPath}: ${it.message}"
-        }
+        val message =
+            e.constraintViolations.joinToString(", ") {
+                "${it.propertyPath}: ${it.message}"
+            }
         return ResponseEntity
             .status(HttpStatus.BAD_REQUEST)
             .body(CommonResponse.error("CONSTRAINT_VIOLATION", message, HttpStatus.BAD_REQUEST))

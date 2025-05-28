@@ -16,9 +16,10 @@ import org.testcontainers.utility.DockerImageName
 class TestContainersConfig {
     companion object {
         @Container
-        private val redisContainer = RedisContainer(DockerImageName.parse("redis:7.2"))
-            .withExposedPorts(6379)
-            .apply { start() }
+        private val redisContainer =
+            RedisContainer(DockerImageName.parse("redis:7.2"))
+                .withExposedPorts(6379)
+                .apply { start() }
 
         @JvmStatic
         @DynamicPropertySource
@@ -35,7 +36,7 @@ class TestContainersConfig {
     fun redisConnectionFactory(): RedisConnectionFactory {
         return LettuceConnectionFactory(
             redisContainer.host,
-            redisContainer.firstMappedPort
+            redisContainer.firstMappedPort,
         )
     }
 }

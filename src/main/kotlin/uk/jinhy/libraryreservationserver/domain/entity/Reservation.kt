@@ -5,7 +5,7 @@ import org.springframework.data.redis.core.RedisHash
 import java.time.LocalDateTime
 
 @RedisHash("reservation")
-class Reservation (
+class Reservation(
     @Id
     val seatCode: Long,
     val expiredAt: LocalDateTime,

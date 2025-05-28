@@ -13,31 +13,34 @@ import uk.jinhy.libraryreservationserver.presentation.dto.ReservationListRespons
 @RestController
 @RequestMapping("/api/v1/seats")
 class ReservationControllerImpl(
-    private val reservationService: ReservationService
+    private val reservationService: ReservationService,
 ) : ReservationController {
     @GetMapping
     override fun getReservationList(): ResponseEntity<CommonResponse<ReservationListResponse>> {
         val seatInfo = reservationService.getReservationList()
-        
-        val response = ReservationListResponse(
-            seats = seatInfo.seats.map {
-                ReservationItemDto(
-                    code = it.code,
-                    name = it.name,
-                    isPcSeat = it.isPcSeat,
-                    details = it.details?.let { details ->
-                        ReservationDetailsDto(
-                            expireTime = details.expireTime,
-                            checkInTime = details.checkInTime,
+
+        val response =
+            ReservationListResponse(
+                seats =
+                    seatInfo.seats.map {
+                        ReservationItemDto(
+                            code = it.code,
+                            name = it.name,
+                            isPcSeat = it.isPcSeat,
+                            details =
+                                it.details?.let { details ->
+                                    ReservationDetailsDto(
+                                        expireTime = details.expireTime,
+                                        checkInTime = details.checkInTime,
+                                    )
+                                },
                         )
-                    }
-                )
-            },
-            totalCount = seatInfo.totalCount,
-            occupiedCount = seatInfo.occupiedCount,
-            availableCount = seatInfo.availableCount
-        )
-        
+                    },
+                totalCount = seatInfo.totalCount,
+                occupiedCount = seatInfo.occupiedCount,
+                availableCount = seatInfo.availableCount,
+            )
+
         return ResponseEntity.ok(CommonResponse.success(response))
     }
 }

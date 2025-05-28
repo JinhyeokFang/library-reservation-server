@@ -4,5 +4,5 @@ data class ReservationInfoDto(
     val code: Int,
     val name: String,
     val isPcSeat: Boolean,
-    val details: ReservationDetailsDto?
+    val details: ReservationDetailsDto?,
 )

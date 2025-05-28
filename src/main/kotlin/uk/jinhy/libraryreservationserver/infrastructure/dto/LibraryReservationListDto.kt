@@ -5,5 +5,5 @@ data class LibraryReservationListDto(
     val status: Int,
     val message: String,
     val data: List<LibraryReservationInfoDto>,
-    val success: Boolean
+    val success: Boolean,
 )

@@ -7,7 +7,7 @@ import uk.jinhy.libraryreservationserver.domain.repository.SpaceRepository
 
 @Service
 class SpaceServiceImpl(
-    private val spaceRepository: SpaceRepository
+    private val spaceRepository: SpaceRepository,
 ) : SpaceService {
     override fun getSpaceList(): List<SpaceDto> {
         val spaces = spaceRepository.findAll()
@@ -15,11 +15,12 @@ class SpaceServiceImpl(
             SpaceDto(
                 name = it.name,
                 floor = it.floor,
-                seats = it.seats.map {
-                    SeatDto(
-                        id = 0
-                    )
-                }
+                seats =
+                    it.seats.map {
+                        SeatDto(
+                            id = 0,
+                        )
+                    },
             )
         }
     }

@@ -10,5 +10,5 @@ data class LibraryReservationInfoDto(
     val height: Int,
     val textSize: Int?,
     val seatTime: LibraryReservationDetailsDto?,
-    val pcSeatYN: String
+    val pcSeatYN: String,
 )
