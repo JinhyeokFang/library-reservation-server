@@ -24,7 +24,7 @@ class ReservationServiceTest : BehaviorSpec({
         val librarySeatsClient = mockk<LibraryReservationClient>()
         val reservationRepository = mockk<ReservationRepository>()
         val reservationService = ReservationServiceImpl(librarySeatsClient, reservationRepository)
-        
+
         every { reservationRepository.findAll() } returns emptyList()
         every { librarySeatsClient.getReservationList(any()) } returns
             LibraryReservationListDto(
@@ -43,7 +43,7 @@ class ReservationServiceTest : BehaviorSpec({
             Then("API에서 데이터를 가져와야 한다") {
                 verify { librarySeatsClient.getReservationList(1) }
                 verify { reservationRepository.save(any()) }
-                
+
                 result.totalCount shouldBe 2
                 result.occupiedCount shouldBe 1
                 result.availableCount shouldBe 1
@@ -65,50 +65,51 @@ class ReservationServiceTest : BehaviorSpec({
             }
         }
     }
-    
+
     Given("캐시된 데이터가 있을 때") {
         val librarySeatsClient = mockk<LibraryReservationClient>()
         val reservationRepository = mockk<ReservationRepository>()
         val reservationService = ReservationServiceImpl(librarySeatsClient, reservationRepository)
-        
+
         val expireDateTime = LocalDateTime.ofEpochSecond(1747549127, 0, ZoneOffset.UTC)
         val checkInDateTime = LocalDateTime.ofEpochSecond(1747534727, 0, ZoneOffset.UTC)
-        val cachedReservations = listOf(
-            Reservation(
-                seatCode = 6L,
-                name = "6",
-                expiredAt = expireDateTime,
-                checkInAt = checkInDateTime,
-                isPcSeat = true
-            ),
-            Reservation(
-                seatCode = 1L,
-                name = "1",
-                expiredAt = LocalDateTime.now().plusMinutes(30),
-                checkInAt = null,
-                isPcSeat = false
+        val cachedReservations =
+            listOf(
+                Reservation(
+                    seatCode = 6L,
+                    name = "6",
+                    expiredAt = expireDateTime,
+                    checkInAt = checkInDateTime,
+                    isPcSeat = true,
+                ),
+                Reservation(
+                    seatCode = 1L,
+                    name = "1",
+                    expiredAt = LocalDateTime.now().plusMinutes(30),
+                    checkInAt = null,
+                    isPcSeat = false,
+                ),
             )
-        )
-        
+
         every { reservationRepository.findAll() } returns cachedReservations
-        
+
         When("getReservationList()을 호출하면") {
             val result = reservationService.getReservationList()
-            
+
             Then("API를 호출하지 않고 캐시된 데이터를 반환해야 한다") {
                 verify(exactly = 0) { librarySeatsClient.getReservationList(any()) }
-                
+
                 result.seats.size shouldBe 2
                 result.totalCount shouldBe 2
                 result.occupiedCount shouldBe 1
                 result.availableCount shouldBe 1
-                
+
                 val cachedOccupiedSeat = result.seats.first { it.code == 6 }
                 cachedOccupiedSeat.name shouldBe "6"
                 cachedOccupiedSeat.isPcSeat shouldBe true
                 cachedOccupiedSeat.details shouldNotBe null
                 cachedOccupiedSeat.details?.checkInTime shouldNotBe null
-                
+
                 val cachedEmptySeat = result.seats.first { it.code == 1 }
                 cachedEmptySeat.name shouldBe "1"
                 cachedEmptySeat.isPcSeat shouldBe false

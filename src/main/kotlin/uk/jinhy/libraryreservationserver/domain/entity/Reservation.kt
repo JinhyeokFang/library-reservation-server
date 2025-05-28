@@ -14,7 +14,6 @@ class Reservation(
     val checkInAt: LocalDateTime?,
     val isPcSeat: Boolean,
     val name: String,
-    
     @TimeToLive(unit = TimeUnit.SECONDS)
     val ttl: Long = 60,
 )
