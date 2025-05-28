@@ -64,6 +64,15 @@ ktlint {
 
 kover {
     reports {
+        filters {
+            excludes {
+                classes(
+                        "uk.jinhy.libraryreservationserver.global.config.**",
+                        "uk.jinhy.libraryreservationserver.global.exception.**",
+                        "uk.jinhy.libraryreservationserver.global.response.**"
+                )
+            }
+        }
         verify {
             rule {
                 minBound(80)

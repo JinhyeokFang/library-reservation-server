@@ -18,8 +18,20 @@ class ReservationTest
         private val reservationRepository: ReservationRepository,
     ) : BehaviorSpec({
             Given("ReservationRepository의") {
-                val reservation1 = Reservation(seatCode = 1, expiredAt = LocalDateTime.now().plusHours(1))
-                val reservation2 = Reservation(seatCode = 2, expiredAt = LocalDateTime.now().plusHours(2))
+                val reservation1 = Reservation(
+                    seatCode = 1, 
+                    name = "좌석1", 
+                    expiredAt = LocalDateTime.now().plusHours(1), 
+                    checkInAt = LocalDateTime.now(), 
+                    isPcSeat = false
+                )
+                val reservation2 = Reservation(
+                    seatCode = 2, 
+                    name = "좌석2", 
+                    expiredAt = LocalDateTime.now().plusHours(2), 
+                    checkInAt = LocalDateTime.now(), 
+                    isPcSeat = true
+                )
                 val reservationList = listOf(reservation1, reservation2)
                 When("saveAll()를 호출하면") {
                     val savedReservation = reservationRepository.saveAll(reservationList)
