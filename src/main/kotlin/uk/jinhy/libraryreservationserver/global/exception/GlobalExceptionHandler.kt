@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
 import org.springframework.web.servlet.NoHandlerFoundException
+import uk.jinhy.libraryreservationserver.global.config.logger
 import uk.jinhy.libraryreservationserver.global.response.CommonResponse
 
 @RestControllerAdvice
 class GlobalExceptionHandler {
+    private val log by logger
+
     @ExceptionHandler(BusinessException::class)
     fun handleBusinessException(e: BusinessException): ResponseEntity<CommonResponse<Nothing>> {
         return ResponseEntity
@@ -110,6 +113,7 @@ class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception::class)
     fun handleException(e: Exception): ResponseEntity<CommonResponse<Nothing>> {
+        log.error(e.message, e)
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(CommonResponse.error("INTERNAL_SERVER_ERROR", "서버 내부 오류가 발생했습니다", HttpStatus.INTERNAL_SERVER_ERROR))
