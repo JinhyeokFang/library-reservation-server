@@ -1,4 +1,4 @@
-package uk.jinhy.libraryreservationserver.config
+package uk.jinhy.libraryreservationserver.global.config
 
 import feign.Client
 import org.springframework.cloud.openfeign.EnableFeignClients

@@ -1,4 +1,4 @@
-package uk.jinhy.libraryreservationserver.config
+package uk.jinhy.libraryreservationserver.global.config
 
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -16,4 +16,4 @@ class LoggerDelegate : ReadOnlyProperty<Any?, Logger> {
     }
 }
 
-val logger = LoggerDelegate() 
+val logger = LoggerDelegate()

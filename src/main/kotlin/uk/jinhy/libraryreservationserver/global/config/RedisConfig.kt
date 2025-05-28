@@ -1,4 +1,4 @@
-package uk.jinhy.libraryreservationserver.config
+package uk.jinhy.libraryreservationserver.global.config
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty

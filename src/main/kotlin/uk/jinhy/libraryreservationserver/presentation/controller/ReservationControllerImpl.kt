@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import uk.jinhy.libraryreservationserver.application.service.ReservationService
+import uk.jinhy.libraryreservationserver.global.response.CommonResponse
 import uk.jinhy.libraryreservationserver.presentation.dto.ReservationDetailsDto
 import uk.jinhy.libraryreservationserver.presentation.dto.ReservationItemDto
 import uk.jinhy.libraryreservationserver.presentation.dto.ReservationListResponse
@@ -15,7 +16,7 @@ class ReservationControllerImpl(
     private val reservationService: ReservationService
 ) : ReservationController {
     @GetMapping
-    override fun getReservationList(): ResponseEntity<ReservationListResponse> {
+    override fun getReservationList(): ResponseEntity<CommonResponse<ReservationListResponse>> {
         val seatInfo = reservationService.getReservationList()
         
         val response = ReservationListResponse(
@@ -37,6 +38,6 @@ class ReservationControllerImpl(
             availableCount = seatInfo.availableCount
         )
         
-        return ResponseEntity.ok(response)
+        return ResponseEntity.ok(CommonResponse.success(response))
     }
 }

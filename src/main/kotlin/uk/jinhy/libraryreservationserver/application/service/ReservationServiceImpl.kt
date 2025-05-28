@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import uk.jinhy.libraryreservationserver.application.service.dto.ReservationDetailsDto
 import uk.jinhy.libraryreservationserver.application.service.dto.ReservationInfoDto
 import uk.jinhy.libraryreservationserver.application.service.dto.ReservationListDto
-import uk.jinhy.libraryreservationserver.config.logger
+import uk.jinhy.libraryreservationserver.global.config.logger
 import uk.jinhy.libraryreservationserver.infrastructure.LibraryReservationClient
 import java.time.Instant
 
