@@ -16,7 +16,7 @@ import uk.jinhy.libraryreservationserver.infrastructure.dto.LibraryReservationLi
 private val librarySeatsClient = mockk<LibraryReservationClient>()
 
 @InjectMockKs
-private val reservationService = ReservationService(librarySeatsClient)
+private val reservationService: ReservationService = ReservationServiceImpl(librarySeatsClient)
 
 @ExtendWith(MockKExtension::class)
 class ReservationServiceTest : BehaviorSpec({

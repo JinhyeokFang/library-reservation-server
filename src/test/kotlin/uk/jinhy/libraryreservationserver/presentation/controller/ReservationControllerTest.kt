@@ -16,7 +16,7 @@ import java.time.Instant
 private val reservationService = mockk<ReservationService>()
 
 @InjectMockKs
-private val reservationController = ReservationController(reservationService)
+private val reservationController: ReservationController = ReservationControllerImpl(reservationService)
 
 @ExtendWith(MockKExtension::class)
 class ReservationControllerTest : BehaviorSpec({

@@ -15,7 +15,7 @@ import uk.jinhy.libraryreservationserver.domain.repository.SpaceRepository
 private var spaceRepository = mockk<SpaceRepository>()
 
 @InjectMockKs
-private var spaceService = SpaceService(spaceRepository)
+private var spaceService: SpaceService = SpaceServiceImpl(spaceRepository)
 
 @ExtendWith(MockKExtension::class)
 class SpaceServiceTest : BehaviorSpec({
