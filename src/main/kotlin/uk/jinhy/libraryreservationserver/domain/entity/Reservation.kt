@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 class Reservation(
     @Id
     val seatCode: Long,
-    val expiredAt: LocalDateTime,
+    val expiredAt: LocalDateTime?,
     val checkInAt: LocalDateTime?,
     val isPcSeat: Boolean,
     val name: String,
