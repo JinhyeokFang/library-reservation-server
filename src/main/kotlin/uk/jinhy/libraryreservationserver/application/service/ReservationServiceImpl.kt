@@ -4,35 +4,36 @@ import org.springframework.stereotype.Service
 import uk.jinhy.libraryreservationserver.application.dto.ReservationDetailsDto
 import uk.jinhy.libraryreservationserver.application.dto.ReservationInfoDto
 import uk.jinhy.libraryreservationserver.application.dto.ReservationListDto
-import uk.jinhy.libraryreservationserver.domain.entity.Reservation
 import uk.jinhy.libraryreservationserver.domain.repository.ReservationRepository
 import uk.jinhy.libraryreservationserver.global.config.logger
-import uk.jinhy.libraryreservationserver.infrastructure.LibraryReservationClient
-import java.time.Instant
-import java.time.LocalDateTime
 import java.time.ZoneId
 
 @Service
 class ReservationServiceImpl(
-    private val librarySeatsClient: LibraryReservationClient,
     private val reservationRepository: ReservationRepository,
 ) : ReservationService {
     private val log by logger
 
     override fun getReservationList(): ReservationListDto {
-        val cachedSeats = reservationRepository.findAll().toList().filterNotNull()
+        val cachedSeats = reservationRepository.findAll().toList()
 
         if (cachedSeats.isEmpty()) {
-            return fetchReservationList()
+            log.warn("캐시된 좌석 정보가 없습니다. 배치 작업이 아직 실행되지 않았을 수 있습니다.")
+            return ReservationListDto(
+                seats = emptyList(),
+                totalCount = 0,
+                occupiedCount = 0,
+                availableCount = 0,
+            )
         }
 
         val cachedReservationInfoList =
             cachedSeats.map { reservation ->
                 val details =
-                    if (reservation.checkInAt != null) {
+                    if (reservation.checkInAt != null && reservation.expiredAt != null) {
                         ReservationDetailsDto(
                             checkInTime = reservation.checkInAt.atZone(ZoneId.systemDefault()).toInstant(),
-                            expireTime = reservation.expiredAt!!.atZone(ZoneId.systemDefault()).toInstant(),
+                            expireTime = reservation.expiredAt.atZone(ZoneId.systemDefault()).toInstant(),
                         )
                     } else {
                         null
@@ -56,81 +57,5 @@ class ReservationServiceImpl(
             occupiedCount = occupiedCount,
             availableCount = availableCount,
         )
-    }
-
-    override fun fetchReservationList(): ReservationListDto {
-        val allSeats =
-            (1..22).flatMap { roomId ->
-                runCatching {
-                    fetchReservationListSubset(roomId)
-                }.getOrElse { e ->
-                    log.error(e.message, e)
-                    throw e
-                }
-            }
-
-        val totalCount = allSeats.size
-        val occupiedCount = allSeats.count { it.details != null }
-        val availableCount = totalCount - occupiedCount
-
-        return ReservationListDto(
-            seats = allSeats,
-            totalCount = totalCount,
-            occupiedCount = occupiedCount,
-            availableCount = availableCount,
-        )
-    }
-
-    override fun fetchReservationListSubset(spaceId: Int): List<ReservationInfoDto> {
-        val response = librarySeatsClient.getReservationList(spaceId)
-        return response.data.map { seat ->
-            val detailsDto =
-                seat.seatTime?.let { seatTime ->
-                    ReservationDetailsDto(
-                        checkInTime = Instant.ofEpochMilli(seatTime.confirmInTime),
-                        expireTime = Instant.ofEpochMilli(seatTime.expireTime),
-                    )
-                }
-
-            val seatInfo =
-                ReservationInfoDto(
-                    code = seat.code,
-                    name = seat.name,
-                    isPcSeat = seat.pcSeatYN == "Y",
-                    details = detailsDto,
-                )
-
-            val checkInDateTime =
-                seat.seatTime?.let {
-                    LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(it.confirmInTime),
-                        ZoneId.systemDefault(),
-                    )
-                }
-
-            val expireDateTime =
-                seat.seatTime?.let {
-                    LocalDateTime.ofInstant(
-                        Instant.ofEpochMilli(it.expireTime),
-                        ZoneId.systemDefault(),
-                    )
-                }
-
-            try {
-                reservationRepository.save(
-                    Reservation(
-                        seatCode = seat.code.toLong(),
-                        name = seat.name,
-                        expiredAt = expireDateTime,
-                        checkInAt = checkInDateTime,
-                        isPcSeat = seat.pcSeatYN == "Y",
-                    ),
-                )
-            } catch (e: Exception) {
-                log.error("좌석 캐싱 실패: ${seat.code}, ${e.message}")
-            }
-
-            seatInfo
-        }
     }
 }
