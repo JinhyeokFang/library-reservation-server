@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 class RedissonClientConfig {
-
     @Value("\${spring.data.redis.host}")
     private lateinit var host: String
 
